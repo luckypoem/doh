@@ -9,7 +9,7 @@ Privacy-oriented local DNS-over-HTTPS proxy written in Go
 - dns resolvers are preconfigured 1.1.1.1 8.8.8.8 -> can add your own. Do a https request to all and wait for fastest response
 - Caching? (Done by the os?)
 
-- Implement check if nameserver is not set (check /etc/resolv.conf on linux and bsd)
+- Implement check if nameserver is not set (check /etc/resolv.conf on linux and bsd) or just a dns lookup??? -> but this could disclose usage
 - (BACKLOG) Implement internal redirects with iptables or pf -> look at sshuttle for inpiration
 
 - Written in Go
