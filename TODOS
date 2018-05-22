@@ -1,2 +1,7 @@
-- parallel? -> is tis being run parallel or one by one...
-- buffer size?? 
+- If fail to start program (any errro) notify user (build function that gives output colored in bash, later gui) (osascript prompt)
+osascript -e "set theDialogText to \"The curent date and time is \" & (current date) & \".\"" -e "display dialog theDialogText"
+osascript -e 'tell app "System Events" to display dialog "Hello World"'
+
+-if successfull boot maybe osascript -e 'display notification "Lorem ipsum dolor sit amet" with title "Title"'
+
+- Check if dns is already configured to 127.0.0.1

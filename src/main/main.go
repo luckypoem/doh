@@ -9,6 +9,8 @@ import (
 	"encoding/json"
 	"strconv"
 	"strings"
+	"runtime"
+	"os/exec"
 )
 
 /* A Simple function to verify error */
@@ -20,6 +22,26 @@ func CheckError(err error) {
 }
 
 func main() {
+	if os.Geteuid() != 0 { //check if not root
+		if runtime.GOOS == "darwin" { // macos
+			command := "osascript -e 'do shell script \""+os.Args[0]+"\" with prompt \"DoH needs system rights\" with administrator privileges'"
+			cmd := exec.Command("sh", "-c", command)
+			stdoutStderr, err := cmd.CombinedOutput()
+			//TODO detect failed permissions grant -> error with; 'Doh needs system permissions to run'
+			os.Exit(0)
+		} else if runtime.GOOS == "windows" { //windows
+			//TODO test if this works?
+			cmd := exec.Command("/runas", "/profile", "/user:administrator", os.Args[0])
+			stdoutStderr, err := cmd.CombinedOutput()
+			//TODO detect failed permissions grant -> error with; 'Doh needs system permissions to run'
+			os.Exit(0)
+		} else { //linux
+			fmt.Println("Please run this program as root")
+		}
+		os.Exit(126)
+	}
+
+
 	ServerAddr,err := net.ResolveUDPAddr("udp",":53")
 	CheckError(err)
 
