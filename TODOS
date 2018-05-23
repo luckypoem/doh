@@ -1,7 +1,9 @@
-- If fail to start program (any errro) notify user (build function that gives output colored in bash, later gui) (osascript prompt)
-osascript -e "set theDialogText to \"The curent date and time is \" & (current date) & \".\"" -e "display dialog theDialogText"
-osascript -e 'tell app "System Events" to display dialog "Hello World"'
+- optimalization for loop 
+- bug when not using dig
+- configured check fix
 
--if successfull boot maybe osascript -e 'display notification "Lorem ipsum dolor sit amet" with title "Title"'
 
 - Check if dns is already configured to 127.0.0.1
+- Recheck every minute?
+-make full bundles, executables etc with icons
+https://medium.com/@mattholt/packaging-a-go-application-for-macos-f7084b00f6b5
