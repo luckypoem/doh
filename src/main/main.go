@@ -50,7 +50,6 @@ func CreateResponse(resolved_query map[string]interface{}, buf []byte, query []b
 	response := buf[:2] //id
 	response = append(response, []byte{129, 128}...) //flags
 	response = append(response, []byte{0, 1, 0, 1, 0, 0, 0, 0}...) //rr
-	response = append(response, 3) //start response
 	response = append(response, query...) //query
 	response = append(response, 0) //query end
 	response = append(response, []byte{0, 1, 0, 1}...) //type and class
@@ -75,7 +74,7 @@ func CreateResponse(resolved_query map[string]interface{}, buf []byte, query []b
 func ProcessRequest(n int, addr *net.UDPAddr, buf []byte, ServerConn *net.UDPConn) {
 	//REQUEST
 	query := []byte{}
-	for _, element := range buf[13:] {
+	for _, element := range buf[12:] { //includes starting symbol
 		if element == 0 {
 			break
 		} else {
@@ -84,7 +83,7 @@ func ProcessRequest(n int, addr *net.UDPAddr, buf []byte, ServerConn *net.UDPCon
 	}
 
 	record := ""
-	for _, element := range query {
+	for _, element := range query[1:] {
 		if element < 31 { //discover dots 
 			record+="."
 		} else {
@@ -102,15 +101,25 @@ func ProcessRequest(n int, addr *net.UDPAddr, buf []byte, ServerConn *net.UDPCon
 	var f interface{}
 	json.Unmarshal(body, &f)
 	m := f.(map[string]interface{}) //make a mappable opbject
-	resolved_query := m["Answer"].([]interface{})[0].(map[string]interface{})// contains TTL name data type
 
-	//RESPONSE
-	response := CreateResponse(resolved_query, buf, query)
-	_, err = ServerConn.WriteToUDP(response, addr)
-	CheckError(err)
 
-	//TODO implement type 
+	//TODO DEBUG HERE failed query (e.g.)
 	//TODO catch empty response (failed)
+	if m["Answer"] != nil {
+		resolved_query_slice := m["Answer"].([]interface{})
+		resolved_query := resolved_query_slice[len(resolved_query_slice)-1].(map[string]interface{})// contains TTL name data type
+		//resolved_query := m["Answer"].([]interface{})[0].(map[string]interface{})// contains TTL name data type
+
+		//RESPONSE
+		fmt.Println(query)
+		response := CreateResponse(resolved_query, buf, query)
+		fmt.Println(response)
+		_, err = ServerConn.WriteToUDP(response, addr)
+		CheckError(err)
+
+		//TODO implement type 
+		//TODO catch empty response (failed)
+	}
 }
 
 func main() {

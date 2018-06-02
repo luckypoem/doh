@@ -7,3 +7,8 @@
 - Recheck every minute?
 -make full bundles, executables etc with icons
 https://medium.com/@mattholt/packaging-a-go-application-for-macos-f7084b00f6b5
+
+
+dns rerouting on mobile:
+https://github.com/julian-klode/dns66
+https://github.com/JadenGeller/Burrow-Client

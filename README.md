@@ -13,3 +13,6 @@ Privacy-oriented local DNS-over-HTTPS proxy written in Go
 - (BACKLOG) Implement internal redirects with iptables or pf -> look at sshuttle for inpiration
 
 - Written in Go
+
+## Information about DNS-over-HTTPS
+- https://hacks.mozilla.org/2018/05/a-cartoon-intro-to-dns-over-https/
