@@ -21,7 +21,7 @@ func ProcessRequest(n int, addr *net.UDPAddr, buf []byte, ServerConn *net.UDPCon
 
 func DNSOverHTTPSRequest(record string) map[string]interface{} {
 	//QUERY OVER HTTPS
-	res, err := http.Get("https://1.1.1.1/dns-query?ct=application/dns-json&name="+record+"&type=A")
+	res, err := http.Get("https://rd.smt.biz.st/dns-query?ct=application/dns-json&name="+record+"&type=A")
 	CheckError(err)
 	body, err := ioutil.ReadAll(res.Body)
 	CheckError(err)
